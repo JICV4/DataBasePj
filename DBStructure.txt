@@ -1,0 +1,68 @@
+#Create the data base
+create database bdbproj;
+
+#Create the tables
+use bdbproj;
+
+#Create the tables
+create table Species (
+	ScientificName varchar(60),
+	SpecieFamily varchar(60),
+	SpecieOrder varchar(60),
+	SpecieClass varchar(60),
+	SpeciePhylum varchar(60),
+	SpecieKingdom varchar(60),
+	primary key (ScientificName)
+);
+
+create table Locations (
+	Location varchar(60),
+	Country varchar(60),
+	Continent varchar(60),
+	primary key (Location)
+);
+
+create table GBIFDataBases (
+	KeyName varchar(60),
+    FullName varchar(120),
+	OriginalSamples int,
+	Origin varchar(60),	
+    Institution varchar(60),
+	Cite varchar (360),
+    ReferenceGBIF varchar(120),
+	primary key (KeyName)
+);
+
+create table EnvironmentData (
+	EnvironmentID varchar(60) unique,
+	Temperature float,
+	MaxTemperature float,
+	MinTemperature float,
+	Humidity float,
+	Precipitation float,
+	Rain int,
+	SolarRadiation float,
+	WindSpeed float,
+	primary key (EnvironmentID)
+);
+
+create table Samples (
+	GBIFid varchar(60) unique,
+	ScientificName varchar(60),
+	Location varchar(60),
+	DataBaseID varchar(60),
+	Latitute float,
+	Longitute float,
+	CollectionDay int,
+	CollectionMonth int,
+	CollectionYear int,
+	Elevation float,
+	DayEnvData varchar(60),
+	PreviousDayEnvData varchar(60),
+	primary key (GBIFid),
+	foreign key (ScientificName) references Species(ScientificName),
+	foreign key (Location) references Locations(Location),
+	foreign key (DataBaseID) references GBIFDataBases(KeyName),
+	foreign key (DayEnvData) references EnvironmentData(EnvironmentID),
+	foreign key (PreviousDayEnvData) references EnvironmentData(EnvironmentID)
+);
